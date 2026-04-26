@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { Signal } from "pixelarticons/react";
 import { useGame } from "../context/GameContext";
 
 export default function SensorGate({ children }: { children: React.ReactNode }) {
@@ -21,9 +22,10 @@ export default function SensorGate({ children }: { children: React.ReactNode }) 
             <span className="font-black text-xs uppercase tracking-widest">PosturePack OS</span>
           </div>
 
-          <span className="material-symbols-outlined text-5xl animate-pulse">
-            {isReconnecting ? "wifi_off" : "sensors"}
-          </span>
+          {isReconnecting
+            ? <span className="material-symbols-outlined text-5xl animate-pulse">wifi_off</span>
+            : <Signal className="w-14 h-14 animate-pulse" />
+          }
 
           <div className="text-center">
             <p className="font-black text-sm uppercase tracking-widest mb-1">

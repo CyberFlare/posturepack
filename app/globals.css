@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* pixelarticons — nearest-neighbor rendering for crisp pixel edges */
+svg[fill="currentColor"][viewBox="0 0 24 24"] {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
 :root {
   --background: #fdf8ff;
   --foreground: #1a1c1c;

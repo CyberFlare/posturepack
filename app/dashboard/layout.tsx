@@ -4,6 +4,8 @@ import MenuBar from "./components/MenuBar";
 import Taskbar from "./components/Taskbar";
 import SensorGate from "./components/SensorGate";
 import RewardEngine from "./components/RewardEngine";
+import SlouchBanner from "./components/SlouchBanner";
+import AudioUnlocker from "./components/AudioUnlocker";
 
 export default function DashboardLayout({
   children,
@@ -18,6 +20,8 @@ export default function DashboardLayout({
           {children}
           <Taskbar />
           <RewardEngine />
+          <SlouchBanner />
+          <AudioUnlocker />
         </div>
       </SensorGate>
     </GameProvider>

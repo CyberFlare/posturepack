@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Clock, Play, Reload } from "pixelarticons/react";
+import { playSound } from "@/app/utils/sound";
 import { useGame } from "../context/GameContext";
 import { getPostureState } from "./PostureCompanion";
 import WindowCard from "./WindowCard";
@@ -89,6 +91,7 @@ export default function FocusTimer() {
       if (expired) {
         clearInterval(id);
         setIsRunning(false);
+        playSound("timerDone.mp3");
         const T = durationRef.current;
         const S = Math.min(slouchSecondsRef.current, T);
         const points = Math.floor((T - S) / 60);
@@ -130,7 +133,7 @@ export default function FocusTimer() {
   return (
     <WindowCard
       title="Focus_Flow.sys"
-      titleIcon="timer"
+      titleIcon={<Clock className="w-4 h-4" />}
       titleBarColor="bg-[#d6d7ff]"
       bodyColor="#f5f5ff"
       className="flex-1"
@@ -213,7 +216,7 @@ export default function FocusTimer() {
             {(["pomodoro", "short", "long"] as const).map((m) => (
               <button
                 key={m}
-                onClick={() => switchMode(m)}
+                onClick={() => { playSound("buttonClick.mp3"); switchMode(m); }}
                 className={`border-[3px] border-black p-2 font-black uppercase text-[9px] button-shadow tracking-widest transition-colors ${
                   mode === m ? "bg-[#d6d7ff]" : "bg-white hover:bg-[#f3f3f4]"
                 }`}
@@ -226,15 +229,15 @@ export default function FocusTimer() {
           {/* Play / Pause */}
           <div className="grid grid-cols-2 gap-3">
             <button
-              onClick={() => setIsRunning(true)}
+              onClick={() => { playSound("buttonClick.mp3"); setIsRunning(true); }}
               disabled={isRunning || timeLeft === 0}
               className="border-[3px] border-black py-3 font-black uppercase text-sm button-shadow tracking-tight transition-colors bg-[#b4f4d8] hover:bg-[#9de4c5] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1"
             >
-              <span className="material-symbols-outlined text-base">play_arrow</span>
+              <Play className="w-5 h-5" />
               Play
             </button>
             <button
-              onClick={() => setIsRunning(false)}
+              onClick={() => { playSound("buttonClick.mp3"); setIsRunning(false); }}
               disabled={!isRunning}
               className="border-[3px] border-black py-3 font-black uppercase text-sm button-shadow tracking-tight transition-colors bg-white hover:bg-[#f3f3f4] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1"
             >
@@ -245,10 +248,10 @@ export default function FocusTimer() {
 
           {/* Reset */}
           <button
-            onClick={() => { setTimeLeft(duration); setIsRunning(false); }}
+            onClick={() => { playSound("buttonClick.mp3"); setTimeLeft(duration); setIsRunning(false); }}
             className="w-full border-[3px] border-black py-2 font-black uppercase text-[10px] button-shadow tracking-widest transition-colors bg-white hover:bg-[#f3f3f4] flex items-center justify-center gap-2"
           >
-            <span className="material-symbols-outlined text-sm">restart_alt</span>
+            <Reload className="w-4 h-4" />
             New Session
           </button>
 

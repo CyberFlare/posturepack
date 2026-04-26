@@ -96,6 +96,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+
   const addXp = (amount: number) => {
     setState((prev) => {
       let { level, xp } = prev;

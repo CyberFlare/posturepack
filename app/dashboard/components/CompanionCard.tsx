@@ -1,8 +1,10 @@
 "use client";
 
+import { Smile } from "pixelarticons/react";
 import WindowCard from "./WindowCard";
 import MochiMage from "./MochiMage";
 import { useGame } from "../context/GameContext";
+import { getPostureState } from "./PostureCompanion";
 
 const STATUS_LABELS: Record<string, string> = {
   optimal: "POSTURE OPTIMAL ✨",
@@ -10,14 +12,15 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export default function CompanionCard({ className }: { className?: string }) {
-  const { level, isPostureOptimal } = useGame();
+  const { level, distance } = useGame();
 
-  const statusKey = isPostureOptimal ? "optimal" : "slumped";
+  const isAwake = getPostureState(distance ?? 0) === "perfect";
+  const statusKey = isAwake ? "optimal" : "slumped";
 
   return (
     <WindowCard
       title="Companion.exe"
-      titleIcon="face"
+      titleIcon={<Smile className="w-5 h-5" />}
       bodyColor="#f5f5ff"
       className={className}
     >
@@ -25,7 +28,7 @@ export default function CompanionCard({ className }: { className?: string }) {
         {/* Mage display area */}
         <div className="w-2/5 aspect-square border-[3px] border-black bg-[#b4f4d8] relative flex-shrink-0"
           style={{ boxShadow: "4px 4px 0 #000", overflow: "visible" }}>
-          <MochiMage level={level} isPostureOptimal={isPostureOptimal} />
+          <MochiMage level={level} isAwake={isAwake} />
         </div>
 
         {/* Info panel */}
@@ -36,7 +39,7 @@ export default function CompanionCard({ className }: { className?: string }) {
 
           <p
             className={`text-[10px] font-black mt-1 px-2 py-0.5 border-2 border-black inline-block w-fit transition-colors duration-500 ${
-              isPostureOptimal
+              isAwake
                 ? "bg-[#b4f4d8] text-[#3a5a4d]"
                 : "bg-[#ffc2d1] text-[#7a1a30]"
             }`}

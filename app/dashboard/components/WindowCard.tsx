@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 interface WindowCardProps {
   title: string;
-  titleIcon?: string;
+  titleIcon?: ReactNode;
   titleBarColor?: string;
   bodyColor?: string;
   dotColors?: [string, string];
@@ -28,9 +28,7 @@ export default function WindowCard({
         className={`${titleBarColor} border-b-[3px] border-black px-3 py-2 flex justify-between items-center`}
       >
         <span className="font-bold text-black uppercase text-xs tracking-widest flex items-center gap-2">
-          {titleIcon && (
-            <span className="material-symbols-outlined text-sm">{titleIcon}</span>
-          )}
+          {titleIcon}
           {title}
         </span>
         <div className="flex items-center gap-1.5">

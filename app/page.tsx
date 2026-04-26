@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Trophy, Menu, Heart, HumanArmsUp } from "pixelarticons/react";
 import { spaceGrotesk } from "@/app/layout";
 import PomodoroTimer from "@/app/components/PomodoroTimer";
 
@@ -11,7 +12,7 @@ export default function Home() {
       <header className="bg-[#b1b2ff] fixed top-0 left-0 w-full z-50 border-b-[3px] border-black shadow-[0_4px_0_0_rgba(0,0,0,1)]">
         <div className="flex justify-between items-center h-12 px-4 max-w-[1280px] mx-auto w-full">
           <div className="text-2xl font-black tracking-tighter text-black flex items-center gap-2 font-display">
-            <span className="material-symbols-outlined text-black" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+            <Trophy className="w-6 h-6" />
             STRIVE
           </div>
           <nav className="hidden md:flex gap-8 items-center font-display font-bold uppercase tracking-tight">
@@ -26,7 +27,7 @@ export default function Home() {
             </Link>
           </nav>
           <div className="md:hidden">
-            <span className="material-symbols-outlined text-black text-3xl">menu</span>
+            <Menu className="w-9 h-9" />
           </div>
         </div>
       </header>
@@ -70,7 +71,7 @@ export default function Home() {
               {/* hero image */}
               <div className="w-full md:w-1/2 relative">
                 <div className="absolute -top-6 -right-6 bg-[#bfe9ff] border-[3px] border-black p-2 z-10 shadow-[3px_3px_0_0_rgba(0,0,0,1)]">
-                  <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
+                  <Heart className="w-11 h-11" />
                 </div>
                 <div className="bg-[#f3f3f4] border-[3px] border-black aspect-square overflow-hidden relative shadow-inner">
                   <Image
@@ -115,7 +116,7 @@ export default function Home() {
             </div>
             <div className="p-6 flex flex-col items-center text-center">
               <div className="mb-6 p-4 bg-[#eeeeee] border-[3px] border-black shadow-inner">
-                <span className="material-symbols-outlined text-6xl text-[#b1b2ff]">accessibility_new</span>
+                <HumanArmsUp className="w-[66px] h-[66px] text-[#b1b2ff]" />
               </div>
               <div className="bg-[#b4f4d8] border-[3px] border-black px-4 py-1 mb-4 flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-600 animate-pulse" />
