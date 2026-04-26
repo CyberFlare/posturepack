@@ -10,6 +10,12 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Landing page font families — all use Space Grotesk */
+  --font-display: var(--font-space-grotesk), sans-serif;
+  --font-body-bold: var(--font-space-grotesk), sans-serif;
+  --font-window-title: var(--font-space-grotesk), sans-serif;
+  --font-status-label: var(--font-space-grotesk), sans-serif;
+  --font-button-text: var(--font-space-grotesk), sans-serif;
 }
 
 @theme {
@@ -128,4 +134,85 @@ body {
     radial-gradient(#e6e6fa 1px, transparent 1px);
   background-size: 20px 20px;
   background-position: 0 0, 10px 10px;
+}
+
+/* ────────────────────────────────────────────────
+   Landing page utilities
+   ──────────────────────────────────────────────── */
+
+/* Polka-dot grid used on the landing page body */
+.pixel-grid {
+  background-image: radial-gradient(#c7c5d2 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* XP-bar gloss shine */
+.xp-shine {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 50.1%
+  );
+}
+
+/* Type-scale from the design system (matches Tailwind config in original HTML) */
+.text-display     { font-size: 56px; line-height: 1; letter-spacing: -0.05em; }
+.text-window-title{ font-size: 14px; line-height: 1.2; letter-spacing: 0.1em; }
+.text-status-label{ font-size: 10px; line-height: 1; letter-spacing: 0.2em; }
+.text-button-text { font-size: 18px; line-height: 1; letter-spacing: -0.02em; }
+
+/* ────────────────────────────────────────────────
+   CRT Scanline Overlay  (toggled by RewardEngine)
+   ──────────────────────────────────────────────── */
+body.crt-mode::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.035) 3px,
+    rgba(0, 0, 0, 0.035) 6px
+  );
+  pointer-events: none;
+  z-index: 9998;
+  animation: crtScroll 14s linear infinite;
+}
+
+@keyframes crtScroll {
+  from { background-position: 0 0; }
+  to   { background-position: 0 120px; }
+}
+
+/* Subtle screen-flicker on CRT mode */
+body.crt-mode {
+  animation: crtFlicker 8s step-end infinite;
+}
+
+@keyframes crtFlicker {
+  0%   { filter: brightness(1); }
+  92%  { filter: brightness(1); }
+  93%  { filter: brightness(0.96); }
+  94%  { filter: brightness(1); }
+  97%  { filter: brightness(0.98); }
+  100% { filter: brightness(1); }
+}
+
+/* ────────────────────────────────────────────────
+   Neon Nights extras  (class added to <html> by applyTheme)
+   ──────────────────────────────────────────────── */
+html.theme-neon .window-shadow {
+  box-shadow: 6px 6px 0px 0px #c084fc;
+}
+
+html.theme-neon .button-shadow {
+  box-shadow: 3px 3px 0px 0px #c084fc;
+}
+
+/* Neubrutalist hard-shadow utility with 4px border */
+.nb-card {
+  border: 4px solid #000;
+  box-shadow: 6px 6px 0px 0px #000;
 }

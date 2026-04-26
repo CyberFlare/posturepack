@@ -22,6 +22,7 @@ interface GameState {
   focusMinutes: number;
   postureCheckins: number;
   playerName: string;
+  isPostureOptimal: boolean;
   addXp: (amount: number) => void;
   addSession: (minutes: number) => void;
   addPostureCheckin: () => void;
@@ -109,7 +110,17 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setFocusMinutes((m) => m + minutes);
   };
 
-  const addPostureCheckin = () => setPostureCheckins((c) => c + 1);
+  const addPostureCheckin = () => {
+    setPostureCheckins((c) => c + 1);
+    setIsPostureOptimal(true);
+
+    // Clear any existing reset timer and start a fresh one
+    if (postureResetRef.current) clearTimeout(postureResetRef.current);
+    postureResetRef.current = setTimeout(
+      () => setIsPostureOptimal(false),
+      POSTURE_WINDOW_MS
+    );
+  };
 
   const setPlayerName = (name: string) => setPlayerNameState(name);
 
@@ -123,6 +134,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         focusMinutes,
         postureCheckins,
         playerName,
+        isPostureOptimal,
         addXp,
         addSession,
         addPostureCheckin,
