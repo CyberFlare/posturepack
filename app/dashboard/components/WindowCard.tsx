@@ -4,6 +4,7 @@ interface WindowCardProps {
   title: string;
   titleIcon?: string;
   titleBarColor?: string;
+  bodyColor?: string;
   dotColors?: [string, string];
   children: ReactNode;
   className?: string;
@@ -13,13 +14,15 @@ export default function WindowCard({
   title,
   titleIcon,
   titleBarColor = "bg-[#d6d7ff]",
+  bodyColor = "#f5f5ff",
   dotColors = ["#FF7DC4", "#97dbff"],
   children,
   className = "",
 }: WindowCardProps) {
   return (
     <div
-      className={`bg-white border-[3px] border-black window-shadow card-decoration relative flex flex-col ${className}`}
+      className={`border-[3px] border-black window-shadow card-decoration relative flex flex-col ${className}`}
+      style={{ background: bodyColor }}
     >
       <div
         className={`${titleBarColor} border-b-[3px] border-black px-3 py-2 flex justify-between items-center`}

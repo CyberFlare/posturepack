@@ -6,6 +6,7 @@ export default function CompanionCard({ className }: { className?: string }) {
     <WindowCard
       title="Companion.exe"
       titleIcon="face"
+      bodyColor="#f5f5ff"
       className={className}
     >
       <div className="p-3 flex flex-row items-center gap-4">

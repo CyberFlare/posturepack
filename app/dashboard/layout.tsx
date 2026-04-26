@@ -10,7 +10,7 @@ export default function DashboardLayout({
 }) {
   return (
     <GameProvider>
-      <div className={`${spaceGrotesk.className} min-h-screen dashboard-bg`}>
+      <div className={`${spaceGrotesk.className} min-h-screen`} style={{ backgroundImage: "url('/pixelBG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
         <MenuBar />
         {children}
         <Taskbar />

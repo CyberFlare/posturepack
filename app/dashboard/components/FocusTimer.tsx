@@ -67,6 +67,7 @@ export default function FocusTimer() {
       title="Focus_Flow.sys"
       titleIcon="timer"
       titleBarColor="bg-[#d6d7ff]"
+      bodyColor="#f5f5ff"
       className="flex-1"
     >
       <div className="p-4 flex flex-row flex-1 justify-center">
@@ -121,26 +122,54 @@ export default function FocusTimer() {
 
         {/* Controls */}
         <div className="w-1/2 flex flex-col gap-3 justify-center p-4">
-          <button
-            onClick={() => setIsRunning((r) => !r)}
-            className="w-full bg-[#b4f4d8] border-[3px] border-black py-3 font-black uppercase text-base button-shadow hover:bg-[#9de4c5] transition-colors tracking-tight"
-          >
-            {isRunning ? "Pause Session" : "Start Session"}
-          </button>
-          <div className="grid grid-cols-2 gap-3">
+          {/* Mode buttons */}
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              onClick={() => switchMode("pomodoro")}
+              className={`border-[3px] border-black p-2 font-black uppercase text-[9px] button-shadow tracking-widest transition-colors ${mode === "pomodoro" ? "bg-[#d6d7ff]" : "bg-white hover:bg-surface-container-low"}`}
+            >
+              Pomodoro
+            </button>
             <button
               onClick={() => switchMode("short")}
-              className={`border-[3px] border-black p-2 font-black uppercase text-[10px] button-shadow tracking-widest transition-colors ${mode === "short" ? "bg-[#d6d7ff]" : "bg-white hover:bg-surface-container-low"}`}
+              className={`border-[3px] border-black p-2 font-black uppercase text-[9px] button-shadow tracking-widest transition-colors ${mode === "short" ? "bg-[#d6d7ff]" : "bg-white hover:bg-surface-container-low"}`}
             >
               Short Break
             </button>
             <button
               onClick={() => switchMode("long")}
-              className={`border-[3px] border-black p-2 font-black uppercase text-[10px] button-shadow tracking-widest transition-colors ${mode === "long" ? "bg-[#d6d7ff]" : "bg-white hover:bg-surface-container-low"}`}
+              className={`border-[3px] border-black p-2 font-black uppercase text-[9px] button-shadow tracking-widest transition-colors ${mode === "long" ? "bg-[#d6d7ff]" : "bg-white hover:bg-surface-container-low"}`}
             >
               Long Break
             </button>
           </div>
+          {/* Play / Pause */}
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={() => setIsRunning(true)}
+              disabled={isRunning}
+              className="border-[3px] border-black py-3 font-black uppercase text-sm button-shadow tracking-tight transition-colors bg-[#b4f4d8] hover:bg-[#9de4c5] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1"
+            >
+              <span className="material-symbols-outlined text-base">play_arrow</span>
+              Play
+            </button>
+            <button
+              onClick={() => setIsRunning(false)}
+              disabled={!isRunning}
+              className="border-[3px] border-black py-3 font-black uppercase text-sm button-shadow tracking-tight transition-colors bg-white hover:bg-surface-container-low disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1"
+            >
+              <span className="material-symbols-outlined text-base">pause</span>
+              Pause
+            </button>
+          </div>
+          {/* New Session / Reset */}
+          <button
+            onClick={() => switchMode(mode)}
+            className="w-full border-[3px] border-black py-2 font-black uppercase text-[10px] button-shadow tracking-widest transition-colors bg-white hover:bg-surface-container-low flex items-center justify-center gap-2"
+          >
+            <span className="material-symbols-outlined text-sm">restart_alt</span>
+            New Session
+          </button>
         </div>
       </div>
     </WindowCard>

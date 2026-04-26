@@ -61,6 +61,7 @@ export default function DailyManifest() {
       title="Daily_Manifest"
       titleIcon="checklist"
       titleBarColor="bg-[#ffc2d1]"
+      bodyColor="#fff5f8"
     >
       <ul className="p-4 space-y-3 overflow-y-auto max-h-44 custom-scrollbar">
         {/* Add task row — always pinned at top */}

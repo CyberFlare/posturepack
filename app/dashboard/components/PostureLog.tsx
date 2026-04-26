@@ -26,6 +26,7 @@ export default function PostureLog() {
       title="Posture_Log"
       titleIcon="accessibility_new"
       titleBarColor="bg-[#b4f4d8]"
+      bodyColor="#f0fff8"
       className="h-full"
     >
       <div className="p-6">

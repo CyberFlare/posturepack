@@ -8,7 +8,7 @@ export default function XpBar() {
   const progress = Math.round((xp / cap) * 100);
 
   return (
-    <WindowCard title="Progression_Monitor" titleBarColor="bg-[#bfe9ff]">
+    <WindowCard title="Progression_Monitor" titleBarColor="bg-[#bfe9ff]" bodyColor="#eaf6ff">
       <div className="p-4 space-y-3">
         <div className="flex justify-between font-black text-xs uppercase">
           <span>Lvl {level}</span>

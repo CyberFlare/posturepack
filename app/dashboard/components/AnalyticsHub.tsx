@@ -13,6 +13,7 @@ export default function AnalyticsHub() {
       title="Analytics_Hub"
       titleIcon="rocket_launch"
       titleBarColor="bg-[#bfe9ff]"
+      bodyColor="#eaf6ff"
       className="h-full"
     >
       <div className="p-6 grid grid-cols-2 gap-4">

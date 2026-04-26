@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const NAV_ITEMS = ["FILE", "EDIT", "VIEW", "SYSTEM"];
+const NAV_ITEMS = ["BroncoHacks 2026", "MLH"];
 
 export default function MenuBar() {
   const [time, setTime] = useState("");
