@@ -61,9 +61,13 @@ export default function Home() {
                   >
                     START YOUR JOURNEY
                   </Link>
-                  <button className="bg-white border-[3px] border-black px-8 py-4 font-button-text text-button-text font-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:bg-[#eeeeee] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+                      <a 
+                    href="https://youtu.be/XMmiTplPu_I"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block bg-white border-[3px] border-black px-8 py-4 font-button-text text-button-text font-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:bg-[#eeeeee] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all text-center">
                     WATCH DEMO
-                  </button>
+                  </a>
                 </div>
               </div>
               {/* hero image */}
@@ -73,10 +77,10 @@ export default function Home() {
                 </div>
                 <div className="bg-[#f3f3f4] border-[3px] border-black aspect-square overflow-hidden relative shadow-inner">
                   <Image
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkvCie-Sh3Ktsz8OMvGZGhaQp00Jb5pNCE4P9CdO1vrL5gDd9QbtfUiebjN_waKukkPX6KBsEJGfbPLGama07FsvcCSW5Rc7eT7QJsIQaObt30fsfAUp0HqS1G3nRmj5xSYpF9D_SwnauN3vBvUbvh3Q-sF9b2AKNuzOxYe0FbxXS0Pih4j2qCoLVHwETP7YA_4kzweIxmcWaNwtsTmJmSNJfTECbFxw8OqSPUyMWiKCqjmKYgha9nxUEqBwZmHFUnD3MMDIyEh86W"
-                    alt="Retro pixel-art productivity desktop with a kawaii companion mascot"
+                    src="/favicon.ico"
+                    alt="PosturePack Icon"
                     fill
-                    className="object-cover grayscale brightness-110 contrast-125"
+                    className="object-contain p-4" 
                   />
                 </div>
               </div>

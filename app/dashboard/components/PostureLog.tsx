@@ -131,9 +131,14 @@ export default function PostureLog() {
 
           {/* Segmented colour track */}
           <div className="relative h-4 flex border-[2px] border-black overflow-hidden mb-1">
-            {TRACK_ZONES.map(({ color }, i) => (
-              <div key={i} className="flex-1 h-full"
+            {[
+              { color: TRACK_ZONES[0].color, width: (PERFECT_THRESHOLD / MAX_SENSOR_CM) * 100 },
+              { color: TRACK_ZONES[1].color, width: ((SLOUCHED_THRESHOLD - PERFECT_THRESHOLD) / MAX_SENSOR_CM) * 100 },
+              { color: TRACK_ZONES[2].color, width: ((MAX_SENSOR_CM - SLOUCHED_THRESHOLD) / MAX_SENSOR_CM) * 100 },
+            ].map(({ color, width }, i) => (
+              <div key={i} className="h-full"
                 style={{
+                  width: `${width}%`,
                   background: color,
                   borderRight: i < 2 ? "2px solid black" : undefined,
                 }} />
