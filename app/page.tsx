@@ -12,13 +12,11 @@ export default function Home() {
       <header className="bg-[#b1b2ff] fixed top-0 left-0 w-full z-50 border-b-[3px] border-black shadow-[0_4px_0_0_rgba(0,0,0,1)]">
         <div className="flex justify-between items-center h-12 px-4 max-w-[1280px] mx-auto w-full">
           <div className="text-2xl font-black tracking-tighter text-black flex items-center gap-2 font-display">
-            <Trophy className="w-6 h-6" />
-            STRIVE
+            <span className="material-symbols-outlined text-black" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+            POSTUREPACK
           </div>
           <nav className="hidden md:flex gap-8 items-center font-display font-bold uppercase tracking-tight">
-            <a className="text-black border-b-2 border-black pb-1 hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-75" href="#">Features</a>
-            <a className="text-black/70 hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-75" href="#">Community</a>
-            <a className="text-black/70 hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-75" href="#">Login</a>
+    
             <Link
               href="/dashboard"
               className="bg-[#b4f4d8] border-[3px] border-black px-4 py-1 text-black font-button-text text-button-text shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all duration-75"
@@ -39,7 +37,7 @@ export default function Home() {
           <div className="bg-white border-[3px] border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)] overflow-hidden">
             {/* window chrome */}
             <div className="bg-[#d6d7ff] border-b-[3px] border-black px-4 py-2 flex justify-between items-center">
-              <span className="font-window-title text-window-title font-bold uppercase tracking-widest text-[#4a4b8c]">HERO.EXE</span>
+              <span className="font-window-title text-window-title font-bold uppercase tracking-widest text-[#4a4b8c]">POSTUREPACK.SYS</span>
               <div className="flex gap-2">
                 <div className="w-4 h-4 border-2 border-black bg-white" />
                 <div className="w-4 h-4 border-2 border-black bg-white" />
@@ -54,7 +52,7 @@ export default function Home() {
                   <span className="text-[#b1b2ff] italic">CUTE COMPANION.</span>
                 </h1>
                 <p className="text-xl font-body-bold text-[#464650] max-w-xl">
-                  Unlock your productivity potential with STRIVE. Gamify your workflow, track your posture, and level up your digital mascot as you conquer your daily goals.
+                  Unlock your productivity potential with POSTUREPACK. Gamify your workflow, track your posture, and level up your digital mascot as you conquer your daily goals.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-4">
                   <Link
@@ -143,7 +141,7 @@ export default function Home() {
                 </div>
                 <div>
                   <p className="font-status-label text-status-label text-[#b1b2ff]">PLAYER: STRIVER_01</p>
-                  <p className="font-display text-xl font-black">LEVEL 42</p>
+                  <p className="font-display text-xl font-black">LEVEL 24</p>
                 </div>
               </div>
               <div className="space-y-2">
@@ -158,7 +156,7 @@ export default function Home() {
                 </div>
               </div>
               <p className="mt-6 text-center text-[#464650] font-body-bold">
-                Unlock exclusive pixel furniture for your mascot&apos;s room.
+                Unlock exclusive pixel cosmetics for your mascot as you level up.
               </p>
             </div>
           </div>
@@ -169,14 +167,12 @@ export default function Home() {
       {/* ── Footer ── */}
       <footer className="bg-white w-full border-t-[3px] border-black mt-20">
         <div className="max-w-[1280px] mx-auto px-8 py-12 flex flex-col md:flex-row justify-between items-center gap-8 font-display text-sm font-bold uppercase">
-          <div className="font-black text-xl">STRIVE OS</div>
+          <div className="font-black text-xl">BRONCOHACKS 2026</div>
           <div className="flex gap-8">
-            <a className="text-black/60 hover:text-[#b1b2ff] transition-colors duration-200" href="#">Privacy</a>
-            <a className="text-black/60 hover:text-[#b1b2ff] transition-colors duration-200" href="#">Terms</a>
-            <a className="text-black/60 hover:text-[#b1b2ff] transition-colors duration-200" href="#">Github</a>
-            <a className="text-black/60 hover:text-[#b1b2ff] transition-colors duration-200" href="#">Discord</a>
+            <a className="text-black/60 hover:text-[#b1b2ff] transition-colors duration-200" href="https://github.com/CyberFlare/posturepack" target="_blank" rel="noopener noreferrer">Github</a>
+            <a className="text-black/60 hover:text-[#b1b2ff] transition-colors duration-200" href="https://discord.gg/dbN6c9392M " target="_blank" rel="noopener noreferrer">Discord</a>
           </div>
-          <div className="text-black">© 2024 STRIVE OS — STAY KAWAII, STAY FOCUSED</div>
+          <div className="text-black">© 2026 POSTUREPACK</div>
         </div>
       </footer>
 
