@@ -7,21 +7,20 @@ import { useGame } from "../context/GameContext";
 const GITHUB_URL = "https://github.com/CyberFlare/posturepack";
 
 export default function Taskbar() {
-  const { level } = useGame();
-  const [name, setName] = useState("PLAYER_1");
+  const { level, playerName, setPlayerName } = useGame();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const openPopup = () => {
-    setDraft(name);
+    setDraft(playerName);
     setEditing(true);
     setTimeout(() => inputRef.current?.focus(), 0);
   };
 
   const commit = () => {
     const trimmed = draft.trim();
-    if (trimmed) setName(trimmed.toUpperCase());
+    if (trimmed) setPlayerName(trimmed.toUpperCase());
     setEditing(false);
   };
 
@@ -94,7 +93,7 @@ export default function Taskbar() {
             onClick={openPopup}
             className="bg-[#b4f4d8] border-[3px] border-black px-4 py-1 shadow-[inset_2px_2px_0px_0px_white] button-shadow hover:bg-[#9de4c5] transition-colors"
           >
-            LVL {level} {name}
+            LVL {level} {playerName}
           </button>
         </div>
       </footer>

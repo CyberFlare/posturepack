@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGame } from "../context/GameContext";
 import WindowCard from "./WindowCard";
 
@@ -14,7 +14,20 @@ const XP_PER_TASK = 5;
 
 export default function DailyManifest() {
   const { addXp } = useGame();
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const saved = localStorage.getItem("pp_tasks");
+      if (!saved) return [];
+      return (JSON.parse(saved) as Task[]).filter((t) => !t.done);
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("pp_tasks", JSON.stringify(tasks));
+  }, [tasks]);
   const [isAdding, setIsAdding] = useState(false);
   const [draft, setDraft] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
