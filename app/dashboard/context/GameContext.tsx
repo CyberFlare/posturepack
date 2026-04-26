@@ -1,8 +1,11 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useRef, ReactNode } from "react";
 
 export const capForLevel = (level: number) => 20 + (level - 1) * 10;
+
+// How long (ms) a posture check-in counts as "optimal"
+const POSTURE_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 
 interface GameState {
   xp: number;
@@ -11,6 +14,7 @@ interface GameState {
   sessions: number;
   focusMinutes: number;
   postureCheckins: number;
+  isPostureOptimal: boolean;
   addXp: (amount: number) => void;
   addSession: (minutes: number) => void;
   addPostureCheckin: () => void;
@@ -23,6 +27,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [sessions, setSessions] = useState(0);
   const [focusMinutes, setFocusMinutes] = useState(0);
   const [postureCheckins, setPostureCheckins] = useState(0);
+  const [isPostureOptimal, setIsPostureOptimal] = useState(false);
+  const postureResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const addXp = (amount: number) => {
     setState((prev) => {
@@ -43,7 +49,17 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setFocusMinutes((m) => m + minutes);
   };
 
-  const addPostureCheckin = () => setPostureCheckins((c) => c + 1);
+  const addPostureCheckin = () => {
+    setPostureCheckins((c) => c + 1);
+    setIsPostureOptimal(true);
+
+    // Clear any existing reset timer and start a fresh one
+    if (postureResetRef.current) clearTimeout(postureResetRef.current);
+    postureResetRef.current = setTimeout(
+      () => setIsPostureOptimal(false),
+      POSTURE_WINDOW_MS
+    );
+  };
 
   return (
     <GameContext.Provider
@@ -54,6 +70,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         sessions,
         focusMinutes,
         postureCheckins,
+        isPostureOptimal,
         addXp,
         addSession,
         addPostureCheckin,

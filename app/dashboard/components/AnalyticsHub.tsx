@@ -29,11 +29,6 @@ export default function AnalyticsHub() {
             {hasData ? sessions : "--"}
           </p>
         </div>
-        <div className="col-span-2">
-          <button className="w-full bg-[#d6d7ff] border-[3px] border-black py-2 text-center text-[10px] font-black uppercase tracking-widest button-shadow">
-            View Full Report
-          </button>
-        </div>
       </div>
     </WindowCard>
   );
