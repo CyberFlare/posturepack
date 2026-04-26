@@ -29,11 +29,18 @@ function formatTime(seconds: number) {
 
 export default function FocusTimer() {
   const { addSession, addXp } = useGame();
-  const [mode, setMode] = useState<Mode>("pomodoro");
-  const [timeLeft, setTimeLeft] = useState(DURATIONS.pomodoro);
+  const [mode, setMode] = useState<Mode>(() => {
+    if (typeof window === "undefined") return "pomodoro";
+    return (localStorage.getItem("pp_timer_mode") as Mode) ?? "pomodoro";
+  });
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const saved = (typeof window !== "undefined" ? localStorage.getItem("pp_timer_mode") as Mode : null) ?? "pomodoro";
+    return DURATIONS[saved];
+  });
   const [isRunning, setIsRunning] = useState(false);
 
   const switchMode = useCallback((next: Mode) => {
+    localStorage.setItem("pp_timer_mode", next);
     setMode(next);
     setTimeLeft(DURATIONS[next]);
     setIsRunning(false);

@@ -1,8 +1,18 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 export const capForLevel = (level: number) => 20 + (level - 1) * 10;
+
+function load<T>(key: string, fallback: T): T {
+  if (typeof window === "undefined") return fallback;
+  try {
+    const raw = localStorage.getItem(key);
+    return raw !== null ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 interface GameState {
   xp: number;
@@ -11,18 +21,74 @@ interface GameState {
   sessions: number;
   focusMinutes: number;
   postureCheckins: number;
+  playerName: string;
   addXp: (amount: number) => void;
   addSession: (minutes: number) => void;
   addPostureCheckin: () => void;
+  setPlayerName: (name: string) => void;
+  sensorConnected: boolean;
+  distance: number | null;
+  isGoodPosture: boolean;
 }
 
 const GameContext = createContext<GameState | null>(null);
 
 export function GameProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState({ level: 1, xp: 0 });
-  const [sessions, setSessions] = useState(0);
-  const [focusMinutes, setFocusMinutes] = useState(0);
-  const [postureCheckins, setPostureCheckins] = useState(0);
+  const [state, setState] = useState(() => load("pp_game", { level: 1, xp: 0 }));
+  const [sessions, setSessions] = useState(() => load("pp_sessions", 0));
+  const [focusMinutes, setFocusMinutes] = useState(() => load("pp_focus_minutes", 0));
+  const [postureCheckins, setPostureCheckins] = useState(() => load("pp_posture_checkins", 0));
+  const [playerName, setPlayerNameState] = useState<string>(() => load("pp_player_name", "PLAYER_1"));
+  const [sensorConnected, setSensorConnected] = useState(false);
+  const [distance, setDistance] = useState<number | null>(null);
+  const [isGoodPosture, setIsGoodPosture] = useState(true);
+
+  // Persist game state
+  useEffect(() => { localStorage.setItem("pp_game", JSON.stringify(state)); }, [state]);
+  useEffect(() => { localStorage.setItem("pp_sessions", JSON.stringify(sessions)); }, [sessions]);
+  useEffect(() => { localStorage.setItem("pp_focus_minutes", JSON.stringify(focusMinutes)); }, [focusMinutes]);
+  useEffect(() => { localStorage.setItem("pp_posture_checkins", JSON.stringify(postureCheckins)); }, [postureCheckins]);
+  useEffect(() => { localStorage.setItem("pp_player_name", JSON.stringify(playerName)); }, [playerName]);
+
+  // WebSocket sensor connection
+  useEffect(() => {
+    let ws: WebSocket;
+    let cancelled = false;
+
+    function connect() {
+      if (cancelled) return;
+      ws = new WebSocket("ws://raspberrypi.local:8765");
+
+      let heartbeat: ReturnType<typeof setTimeout>;
+      const resetHeartbeat = () => {
+        clearTimeout(heartbeat);
+        heartbeat = setTimeout(() => ws.close(), 5000);
+      };
+
+      ws.onopen = () => setSensorConnected(true);
+      ws.onmessage = (event) => {
+        resetHeartbeat();
+        const { distance: d } = JSON.parse(event.data);
+        setDistance(d);
+        setIsGoodPosture(d > 10 && d < 35);
+      };
+      ws.onclose = () => {
+        clearTimeout(heartbeat);
+        setSensorConnected(false);
+        if (!cancelled) setTimeout(connect, 2000);
+      };
+      ws.onerror = () => {
+        clearTimeout(heartbeat);
+        setSensorConnected(false);
+      };
+    }
+
+    connect();
+    return () => {
+      cancelled = true;
+      ws?.close();
+    };
+  }, []);
 
   const addXp = (amount: number) => {
     setState((prev) => {
@@ -45,6 +111,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const addPostureCheckin = () => setPostureCheckins((c) => c + 1);
 
+  const setPlayerName = (name: string) => setPlayerNameState(name);
+
   return (
     <GameContext.Provider
       value={{
@@ -54,9 +122,14 @@ export function GameProvider({ children }: { children: ReactNode }) {
         sessions,
         focusMinutes,
         postureCheckins,
+        playerName,
         addXp,
         addSession,
         addPostureCheckin,
+        setPlayerName,
+        sensorConnected,
+        distance,
+        isGoodPosture,
       }}
     >
       {children}
