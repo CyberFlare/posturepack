@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Bulletlist, Plus, Heart } from "pixelarticons/react";
+import { playSound } from "@/app/utils/sound";
 import { useGame } from "../context/GameContext";
 import WindowCard from "./WindowCard";
 
@@ -41,6 +43,7 @@ export default function DailyManifest() {
       prev.map((t) => (t.id === id ? { ...t, done: completing } : t))
     );
     if (completing) {
+      playSound("task_complete.mp3");
       setTimeout(() => {
         setTasks((prev) => prev.filter((t) => t.id !== id));
       }, 5000);
@@ -72,7 +75,7 @@ export default function DailyManifest() {
   return (
     <WindowCard
       title="Daily_Manifest"
-      titleIcon="checklist"
+      titleIcon={<Bulletlist className="w-4 h-4" />}
       titleBarColor="bg-[#ffc2d1]"
       bodyColor="#fff5f8"
     >
@@ -80,7 +83,7 @@ export default function DailyManifest() {
         {/* Add task row — always pinned at top */}
         <li className="flex items-center gap-3">
           <div className="w-5 h-5 border-[3px] border-black bg-white flex items-center justify-center shrink-0">
-            <span className="material-symbols-outlined text-[10px]">add</span>
+            <Plus className="w-3 h-3" />
           </div>
           {isAdding ? (
             <input
@@ -111,14 +114,7 @@ export default function DailyManifest() {
             <div
               className={`w-5 h-5 border-[3px] border-black flex items-center justify-center shrink-0 transition-colors ${task.done ? "bg-[#b4f4d8]" : "bg-white"}`}
             >
-              {task.done && (
-                <span
-                  className="material-symbols-outlined text-[10px] font-black"
-                  style={{ fontVariationSettings: "'FILL' 1" }}
-                >
-                  favorite
-                </span>
-              )}
+              {task.done && <Heart className="w-3 h-3" />}
             </div>
             <span
               className={`text-xs font-bold transition-opacity ${task.done ? "line-through opacity-40" : ""}`}

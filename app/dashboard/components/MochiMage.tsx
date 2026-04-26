@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface MochiMageProps {
   level: number;
-  isPostureOptimal: boolean;
+  isAwake: boolean;
 }
 
 const hasHat      = (l: number) => l >= 5;
@@ -69,8 +69,8 @@ function GrimoireSVG({ color }: { color: string }) {
   );
 }
 
-export default function MochiMage({ level, isPostureOptimal }: MochiMageProps) {
-  const slumped     = !isPostureOptimal;
+export default function MochiMage({ level, isAwake }: MochiMageProps) {
+  const slumped     = !isAwake;
   const intelligent = hasGrimoire(level);
   const flying      = hasFlying(level);
 

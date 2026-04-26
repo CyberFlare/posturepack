@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { HumanArmsUp } from "pixelarticons/react";
 import { useGame } from "../context/GameContext";
 import WindowCard from "./WindowCard";
 import PostureCompanion, {
@@ -11,8 +12,7 @@ import PostureCompanion, {
   type PState,
 } from "./PostureCompanion";
 
-const XP_PER_CHECKIN = 5;
-const MAX_BARS = 6;
+const XP_PER_CHECKIN = 25;
 
 const STATE_META: Record<PState, { label: string; color: string; dot: string; bg: string }> = {
   perfect:  { label: "PERFECT",    color: "text-[#3a5a4d]", dot: "bg-[#56cc9d] animate-pulse", bg: "bg-[#b4f4d8]" },
@@ -46,13 +46,11 @@ export default function PostureLog() {
     setTimeout(() => setFlash(false), 3000);
   };
 
-  const filledBars = Math.min(postureCheckins, MAX_BARS);
-  const emptyBars  = MAX_BARS - filledBars;
 
   return (
     <WindowCard
       title="Posture_Log"
-      titleIcon="accessibility_new"
+      titleIcon={<HumanArmsUp className="w-4 h-4" />}
       titleBarColor="bg-[#b4f4d8]"
       bodyColor="#f0fff8"
       className="h-full"
@@ -161,21 +159,6 @@ export default function PostureLog() {
           />
         </div>
 
-        {/* ── Hourly breakdown ── */}
-        <div>
-          <p className="text-[8px] font-black uppercase text-black/50 tracking-widest mb-1">
-            Hourly Breakdown
-          </p>
-          <div className="flex items-end gap-1 h-7">
-            {Array.from({ length: filledBars }).map((_, i) => (
-              <div key={i} className="flex-1 bg-[#3a5a4d] border-2 border-black h-full" />
-            ))}
-            {Array.from({ length: emptyBars }).map((_, i) => (
-              <div key={i} className="flex-1 bg-[#e8e8e8] border-2 border-black/20 h-full" />
-            ))}
-          </div>
-        </div>
-
         {/* ── Log button ── */}
         <button
           onClick={handleCheckin}
@@ -183,7 +166,7 @@ export default function PostureLog() {
             flash ? "bg-[#b4f4d8]" : "bg-white hover:bg-[#f0fff8]"
           }`}
         >
-          {flash ? `+${XP_PER_CHECKIN} XP — snapping to optimal!` : "Log Good Posture"}
+          {flash ? `+${XP_PER_CHECKIN} XP — snapping to optimal!` : "[DEMO BUTTON]"}
         </button>
 
       </div>

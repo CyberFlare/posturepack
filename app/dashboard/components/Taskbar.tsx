@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
+import { Home, Users, Terminal, Trophy, Volume3, Reload } from "pixelarticons/react";
 import { useGame } from "../context/GameContext";
 
 const GITHUB_URL = "https://github.com/CyberFlare/posturepack";
@@ -99,32 +100,28 @@ export default function Taskbar() {
       <footer className="fixed bottom-0 left-0 right-0 h-12 bg-white border-t-[3px] border-black px-6 flex items-center z-50">
         <div className="flex items-center gap-4">
           <Link href="/" className="bg-[#d6d7ff] border-[3px] border-black px-6 py-1 flex items-center gap-3 font-black button-shadow text-sm uppercase tracking-wider hover:bg-[#c5c6ff] transition-colors">
-            <span className="material-symbols-outlined text-xl">home</span>
+            <Home className="w-6 h-6" />
             Home
           </Link>
           <div className="h-7 w-[3px] bg-black mx-2" />
           <div className="flex gap-2">
-            <Link href="/about" className="bg-white border-[3px] border-black px-4 py-1 text-xs font-black flex items-center gap-2 shadow-[inset_2px_2px_0px_0px_white] hover:bg-surface-container-low transition-colors">
-              <span className="material-symbols-outlined text-xs">group</span>
-              About
-            </Link>
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="bg-white border-[3px] border-black px-4 py-1 text-xs font-black flex items-center gap-2 shadow-[inset_2px_2px_0px_0px_white] hover:bg-surface-container-low transition-colors">
-              <span className="material-symbols-outlined text-xs">terminal</span>
+              <Terminal className="w-3.5 h-3.5" />
               Github
             </a>
           </div>
         </div>
         <div className="ml-auto flex items-center gap-5 text-xs font-black uppercase">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-lg">star</span>
-            <span className="material-symbols-outlined text-lg">volume_up</span>
+            <Trophy className="w-5 h-5" />
+            <Volume3 className="w-5 h-5" />
           </div>
           <button
             onClick={() => setConfirming(true)}
             className="bg-[#ffdad6] border-[3px] border-black px-4 py-1 shadow-[inset_2px_2px_0px_0px_white] button-shadow hover:bg-[#ffbdb8] transition-colors flex items-center"
             title="Reset character"
           >
-            <span className="material-symbols-outlined" style={{ fontSize: "1rem", lineHeight: 1 }}>restart_alt</span>
+            <Reload className="w-4 h-4" />
           </button>
           <button
             onClick={openPopup}
