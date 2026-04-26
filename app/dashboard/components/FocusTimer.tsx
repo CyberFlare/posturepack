@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useGame } from "../context/GameContext";
+import { getPostureState } from "./PostureCompanion";
 import WindowCard from "./WindowCard";
 
 type Mode = "pomodoro" | "short" | "long" | "custom";
@@ -29,19 +30,34 @@ function formatTime(seconds: number) {
 }
 
 export default function FocusTimer() {
-  const { addSession, addXp } = useGame();
+  const { addSession, addXp, distance: sensorDistance } = useGame();
   const [mode, setMode] = useState<Mode>(() => {
     if (typeof window === "undefined") return "pomodoro";
     return (localStorage.getItem("pp_timer_mode") as Mode) ?? "pomodoro";
   });
   const [timeLeft, setTimeLeft] = useState(() => {
     const saved = (typeof window !== "undefined" ? localStorage.getItem("pp_timer_mode") as Mode : null) ?? "pomodoro";
-    return DURATIONS[saved];
+    return PRESET[saved] ?? PRESET.pomodoro;
+  });
+  const [duration, setDuration] = useState(() => {
+    const saved = (typeof window !== "undefined" ? localStorage.getItem("pp_timer_mode") as Mode : null) ?? "pomodoro";
+    return PRESET[saved] ?? PRESET.pomodoro;
   });
   const [isRunning, setIsRunning] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState("25");
   const inputRef = useRef<HTMLInputElement>(null);
+  const durationRef = useRef(duration);
+  useEffect(() => { durationRef.current = duration; }, [duration]);
+  const addSessionRef = useRef(addSession);
+  useEffect(() => { addSessionRef.current = addSession; }, [addSession]);
+  const addXpRef = useRef(addXp);
+  useEffect(() => { addXpRef.current = addXp; }, [addXp]);
+  const postureStateRef = useRef(getPostureState(sensorDistance ?? 0));
+  useEffect(() => {
+    postureStateRef.current = getPostureState(sensorDistance ?? 0);
+  }, [sensorDistance]);
+  const slouchSecondsRef = useRef(0);
 
   const switchMode = useCallback((next: Mode) => {
     localStorage.setItem("pp_timer_mode", next);
@@ -49,12 +65,20 @@ export default function FocusTimer() {
     setDuration(PRESET[next]);
     setTimeLeft(PRESET[next]);
     setIsRunning(false);
+    slouchSecondsRef.current = 0;
   }, []);
 
   useEffect(() => {
     if (!isRunning) return;
+    slouchSecondsRef.current = 0;
     let expired = false;
     const id = setInterval(() => {
+      if (postureStateRef.current === "sleeping") {
+        clearInterval(id);
+        setIsRunning(false);
+        return;
+      }
+      if (postureStateRef.current === "slouched") slouchSecondsRef.current += 1;
       setTimeLeft((prev) => {
         if (prev <= 1) {
           expired = true;
@@ -65,8 +89,11 @@ export default function FocusTimer() {
       if (expired) {
         clearInterval(id);
         setIsRunning(false);
-        addSession(duration / 60);
-        addXp(5);
+        const T = durationRef.current;
+        const S = Math.min(slouchSecondsRef.current, T);
+        const points = Math.floor((T - S) / 60);
+        addSessionRef.current(T / 60);
+        addXpRef.current(Math.max(0, points));
       }
     }, 1000);
     return () => clearInterval(id);
@@ -186,7 +213,7 @@ export default function FocusTimer() {
             {(["pomodoro", "short", "long"] as const).map((m) => (
               <button
                 key={m}
-                onClick={() => switchPreset(m)}
+                onClick={() => switchMode(m)}
                 className={`border-[3px] border-black p-2 font-black uppercase text-[9px] button-shadow tracking-widest transition-colors ${
                   mode === m ? "bg-[#d6d7ff]" : "bg-white hover:bg-[#f3f3f4]"
                 }`}

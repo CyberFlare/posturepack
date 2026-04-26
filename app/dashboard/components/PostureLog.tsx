@@ -27,10 +27,14 @@ const TRACK_ZONES = [
   { label: "AFK",       color: "#d0d0e8" },
 ] as const;
 
+const MAX_SENSOR_CM = 100;
+
 export default function PostureLog() {
-  const { addXp, addPostureCheckin, postureCheckins } = useGame();
-  const [distance, setDistance] = useState(0);
-  const [flash, setFlash]       = useState(false);
+  const { addXp, addPostureCheckin, postureCheckins, distance: sensorDistance } = useGame();
+  const [flash, setFlash] = useState(false);
+
+  const distance = sensorDistance ?? 0;
+  const meterPct = Math.min((distance / MAX_SENSOR_CM) * 100, 99);
 
   const pState = getPostureState(distance);
   const meta   = STATE_META[pState];
@@ -38,7 +42,6 @@ export default function PostureLog() {
   const handleCheckin = () => {
     addXp(XP_PER_CHECKIN);
     addPostureCheckin();
-    setDistance(0);
     setFlash(true);
     setTimeout(() => setFlash(false), 3000);
   };
@@ -140,7 +143,7 @@ export default function PostureLog() {
             {/* Sliding indicator */}
             <div
               className="absolute top-0 bottom-0 w-[3px] bg-black"
-              style={{ left: `${distance}%`, transform: "translateX(-50%)", boxShadow: "1px 0 0 white" }}
+              style={{ left: `${meterPct}%`, transform: "translateX(-50%)", boxShadow: "1px 0 0 white" }}
             />
           </div>
 
@@ -149,12 +152,12 @@ export default function PostureLog() {
             {TRACK_ZONES.map(({ label }) => <span key={label}>{label}</span>)}
           </div>
 
-          {/* Range slider */}
+          {/* Read-only slider driven by sensor */}
           <input
-            type="range" min="0" max="99"
+            type="range" min="0" max={MAX_SENSOR_CM}
             value={distance}
-            onChange={(e) => setDistance(Number(e.target.value))}
-            className="w-full h-1.5 cursor-pointer accent-black"
+            readOnly
+            className="w-full h-1.5 accent-black pointer-events-none"
           />
         </div>
 

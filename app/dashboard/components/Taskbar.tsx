@@ -7,9 +7,10 @@ import { useGame } from "../context/GameContext";
 const GITHUB_URL = "https://github.com/CyberFlare/posturepack";
 
 export default function Taskbar() {
-  const { level, playerName, setPlayerName } = useGame();
+  const { level, playerName, setPlayerName, resetGame } = useGame();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState("");
+  const [confirming, setConfirming] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const openPopup = () => {
@@ -31,6 +32,35 @@ export default function Taskbar() {
 
   return (
     <>
+      {/* Reset confirmation popup */}
+      {confirming && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/20" onClick={() => setConfirming(false)} />
+          <div className="relative bg-white border-[3px] border-black window-shadow p-6 flex flex-col gap-4 w-72">
+            <div className="bg-[#ffdad6] border-b-[3px] border-black -mx-6 -mt-6 px-4 py-2 mb-2">
+              <span className="font-black text-xs uppercase tracking-widest">Reset Character?</span>
+            </div>
+            <p className="text-xs font-bold text-black/60 uppercase tracking-wide">
+              This will wipe all XP, levels, and session data. Player name is kept.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => { resetGame(); setConfirming(false); }}
+                className="flex-1 bg-[#ffdad6] border-[3px] border-black py-2 font-black text-xs uppercase tracking-widest button-shadow"
+              >
+                Reset
+              </button>
+              <button
+                onClick={() => setConfirming(false)}
+                className="flex-1 bg-white border-[3px] border-black py-2 font-black text-xs uppercase tracking-widest button-shadow"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Name edit popup */}
       {editing && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center">
@@ -89,6 +119,13 @@ export default function Taskbar() {
             <span className="material-symbols-outlined text-lg">star</span>
             <span className="material-symbols-outlined text-lg">volume_up</span>
           </div>
+          <button
+            onClick={() => setConfirming(true)}
+            className="bg-[#ffdad6] border-[3px] border-black px-4 py-1 shadow-[inset_2px_2px_0px_0px_white] button-shadow hover:bg-[#ffbdb8] transition-colors flex items-center"
+            title="Reset character"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: "1rem", lineHeight: 1 }}>restart_alt</span>
+          </button>
           <button
             onClick={openPopup}
             className="bg-[#b4f4d8] border-[3px] border-black px-4 py-1 shadow-[inset_2px_2px_0px_0px_white] button-shadow hover:bg-[#9de4c5] transition-colors"

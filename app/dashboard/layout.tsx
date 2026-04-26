@@ -13,19 +13,13 @@ export default function DashboardLayout({
   return (
     <GameProvider>
       <SensorGate>
-        <div className={`${spaceGrotesk.className} min-h-screen`} style={{ backgroundImage: "url('/pixelBG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
+        <div className={`${spaceGrotesk.className} min-h-screen bg-[#f9f9f9] pixel-grid`}>
           <MenuBar />
           {children}
           <Taskbar />
+          <RewardEngine />
         </div>
       </SensorGate>
-      <div className={`${spaceGrotesk.className} min-h-screen bg-[#f9f9f9] pixel-grid`}>
-        <MenuBar />
-        {children}
-        <Taskbar />
-        {/* Reward engine: theme controller + level-up toast portal */}
-        <RewardEngine />
-      </div>
     </GameProvider>
   );
 }

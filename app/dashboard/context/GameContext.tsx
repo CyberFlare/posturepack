@@ -1,6 +1,8 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react";
+
+const POSTURE_WINDOW_MS = 60_000;
 
 export const capForLevel = (level: number) => 20 + (level - 1) * 10;
 
@@ -27,6 +29,7 @@ interface GameState {
   addSession: (minutes: number) => void;
   addPostureCheckin: () => void;
   setPlayerName: (name: string) => void;
+  resetGame: () => void;
   sensorConnected: boolean;
   distance: number | null;
   isGoodPosture: boolean;
@@ -43,6 +46,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [sensorConnected, setSensorConnected] = useState(false);
   const [distance, setDistance] = useState<number | null>(null);
   const [isGoodPosture, setIsGoodPosture] = useState(true);
+  const [isPostureOptimal, setIsPostureOptimal] = useState(false);
+  const postureResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Persist game state
   useEffect(() => { localStorage.setItem("pp_game", JSON.stringify(state)); }, [state]);
@@ -124,6 +129,17 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const setPlayerName = (name: string) => setPlayerNameState(name);
 
+  const resetGame = () => {
+    setState({ level: 1, xp: 0 });
+    setSessions(0);
+    setFocusMinutes(0);
+    setPostureCheckins(0);
+    setIsPostureOptimal(false);
+    ["pp_game", "pp_sessions", "pp_focus_minutes", "pp_posture_checkins"].forEach(
+      (k) => localStorage.removeItem(k)
+    );
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -139,6 +155,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         addSession,
         addPostureCheckin,
         setPlayerName,
+        resetGame,
         sensorConnected,
         distance,
         isGoodPosture,
